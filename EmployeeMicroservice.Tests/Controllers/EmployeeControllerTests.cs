@@ -20,7 +20,7 @@ namespace EmployeeMicroservice.Tests.Controllers
             _controller = new EmployeeController(_mediatorMock.Object);
         }
 
-        // ✅ Test: Create Employee
+        // Test: Create Employee
         [Fact]
         public async Task CreateEmployee_ShouldReturnCreatedResponse()
         {
@@ -41,7 +41,7 @@ namespace EmployeeMicroservice.Tests.Controllers
             createdResult.Value.Should().BeEquivalentTo(createdEmployee);
         }
 
-        // ✅ Test: Get All Employees
+        //  Test: Get All Employees
         [Fact]
         public async Task GetAllEmployees_ShouldReturnOkResponseWithEmployees()
         {
@@ -65,7 +65,7 @@ namespace EmployeeMicroservice.Tests.Controllers
             okResult.Value.Should().BeEquivalentTo(employees);
         }
 
-        // ✅ Test: Update Employee
+        //  Test: Update Employee
         [Fact]
         public async Task UpdateEmployee_ShouldReturnOkResponse()
         {
@@ -86,7 +86,42 @@ namespace EmployeeMicroservice.Tests.Controllers
             okResult.Value.Should().BeEquivalentTo(updatedEmployee);
         }
 
-        // ✅ Test: Delete Employee
+        [Fact]
+        public async Task UpdateEmployee_ShouldReturnBadResponse()
+        {
+            // Arrange
+            var updateCommand = new UpdateEmployeeCommand { Id = 1, Name = "Updated Name", Position = "Lead Dev", Salary = 85000 };
+
+            // Act
+            var result = await _controller.UpdateEmployee(2, updateCommand);
+
+            // Assert
+            var okResult = result as BadRequestObjectResult;
+            okResult.Should().NotBeNull();
+            okResult.StatusCode.Should().Be(400);
+        }
+
+        [Fact]
+        public async Task UpdateEmployee_ShouldReturnNotFoundResponse()
+        {
+            // Arrange
+            var updateCommand = new UpdateEmployeeCommand { Id = 1, Name = "Updated Name", Position = "Lead Dev", Salary = 85000 };
+            var updatedEmployee = new Employee { Id = 100, Name = "Updated Name", Position = "Lead Dev", Salary = 85000 };
+
+            _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateEmployeeCommand>(), It.IsAny<CancellationToken>()))
+             .ReturnsAsync((Employee?)null);
+
+            // Act
+            var result = await _controller.UpdateEmployee(updateCommand.Id, updateCommand);
+
+            // Assert
+            var okResult = result as NotFoundResult;
+            okResult.Should().NotBeNull();
+            okResult.StatusCode.Should().Be(404);
+        }
+
+
+        //  Test: Delete Employee
         [Fact]
         public async Task DeleteEmployee_ShouldReturnNoContent()
         {
@@ -102,6 +137,23 @@ namespace EmployeeMicroservice.Tests.Controllers
             var noContentResult = result as NoContentResult;
             noContentResult.Should().NotBeNull();
             noContentResult.StatusCode.Should().Be(204);
+        }
+
+        [Fact]
+        public async Task DeleteEmployee_ShouldReturnNotFound()
+        {
+            // Arrange
+            var employeeId = 1;
+            _mediatorMock.Setup(m => m.Send(It.IsAny<DeleteEmployeeCommand>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(false);
+
+            // Act
+            var result = await _controller.DeleteEmployee(employeeId);
+
+            // Assert
+            var noContentResult = result as NotFoundResult;
+            noContentResult.Should().NotBeNull();
+            noContentResult.StatusCode.Should().Be(404);
         }
     }
 }
