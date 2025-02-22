@@ -1,6 +1,29 @@
 @EmployeeMicroserviceAPI_HostAddress = http://localhost:5212
 
-GET {{EmployeeMicroserviceAPI_HostAddress}}/weatherforecast/
+### Create Employee
+POST {{EmployeeMicroserviceAPI_HostAddress}}/api/Employee
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "position": "Software Engineer",
+    "salary": 75000
+}
+
+### Get All Employees
+GET {{EmployeeMicroserviceAPI_HostAddress}}/api/Employee
 Accept: application/json
 
-###
+### Update Employee
+PUT {{EmployeeMicroserviceAPI_HostAddress}}/api/Employee/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "John Doe Updated",
+    "position": "Senior Engineer",
+    "salary": 85000
+}
+
+### Delete Employee
+DELETE {{EmployeeMicroserviceAPI_HostAddress}}/api/Employee/1
