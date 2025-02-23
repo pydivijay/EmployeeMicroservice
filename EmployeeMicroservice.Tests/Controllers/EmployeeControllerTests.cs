@@ -2,10 +2,10 @@
 using EmployeeMicroserviceAPI.Features.Employees.Commands;
 using EmployeeMicroserviceAPI.Features.Employees.Queries;
 using EmployeeMicroserviceAPI.Models;
+using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using FluentAssertions;
 
 namespace EmployeeMicroservice.Tests.Controllers
 {

@@ -1,7 +1,6 @@
 ﻿using EmployeeMicroserviceAPI.Features.Employees.Commands;
 using EmployeeMicroserviceAPI.Features.Employees.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeMicroserviceAPI.Controllers

@@ -1,11 +1,6 @@
 ﻿using EmployeeMicroservice.Tests.Mocks;
 using EmployeeMicroserviceAPI.Data;
 using EmployeeMicroserviceAPI.Features.Employees.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmployeeMicroservice.Tests.Handlers
 {
